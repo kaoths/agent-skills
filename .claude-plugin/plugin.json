@@ -1,0 +1,9 @@
+{
+  "name": "kaoths-skills",
+  "skills": [
+    "./skills/github/fetch-pr-detail",
+    "./skills/github/fetch-pr-review-comments",
+    "./skills/github/reply-pr-review-comments",
+    "./skills/github/request-pr-reviewers"
+  ]
+}
