@@ -21,6 +21,10 @@ If no PR number is given, get it from the current branch:
 gh pr view --json number -q '.number'
 ```
 
+Resolve `owner`, `repo`, and the PR number **once**, then reuse those literal values for
+every later call — never re-run the resolution commands mid-run. A branch checkout or
+remote change between calls would otherwise silently retarget a different PR.
+
 ### Fetch review comments
 
 Inline review comments on specific lines of code:

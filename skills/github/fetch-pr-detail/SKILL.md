@@ -50,6 +50,10 @@ gh pr view --json number -q '.number'
 `gh pr view`, the `gh api repos/:owner/:repo/pulls/<NUM>/files` calls in Phase 1b and
 Phase 3 have no implicit "use current branch" fallback.
 
+Resolve `owner`, `repo`, and `<NUM>` **once**, then reuse those literal values for every
+later call — never re-run the resolution commands mid-run. A branch checkout or remote
+change between calls would otherwise silently retarget a different PR.
+
 ## Phase 1 — Triage (run in parallel)
 
 Goal: PR metadata + per-file stats, **no patches**. Two calls, fire together:

@@ -40,9 +40,27 @@ Your reply text here...
 
 This makes it clear to reviewers who is responding, especially when multiple people (human author + AI agent) are collaborating on the PR.
 
+### Claims must be backed by evidence
+
+A reply that says something was fixed must name the concrete thing you produced **in this
+run**: a commit SHA, or a file path plus what changed in it. Not "done" or "good catch,
+fixed" on its own.
+
+If you can't name that evidence — the change was never made, the push failed, the fix was
+only planned — don't post the reply at all. Skip it and list it in the run summary below.
+An unbacked "fixed" is worse than silence: the reviewer resolves the thread and the bug
+ships.
+
+Replies that don't claim a change (answering a question, disagreeing, asking for
+clarification) need no evidence — this rule is only about claims of work done.
+
 ### Reply to a Review Comment
 
 Requires the PR number and the comment ID (each review comment has a unique `id` field) — get both from the `fetch-pr-review-comments` skill.
+
+Use the `owner`, `repo`, and PR number already resolved during the fetch — don't re-run
+`gh pr view` here. Re-resolving mid-run can retarget a different PR after a branch
+checkout; the comment IDs in hand belong to the PR they were fetched from.
 
 Pass the body via a quoted heredoc into `-F body=@-` (reads the value from stdin) rather
 than a single-quoted `-f body='...'` string — reply text can legitimately contain
@@ -86,6 +104,23 @@ BODY
 ```
 
 Where `:comment_id` is the ID of the reply you want to update (replies are just comments with their own ID).
+
+### Run summary
+
+Replying is the tail end of an unattended run — the user may not have watched any of it.
+End with a compact summary so they can audit without re-reading the transcript:
+
+```
+PR: owner/repo#1234 (branch: fix/foo)
+Replied:
+  - 3317111721 (src/auth.ts:42) — fixed, commit a1b2c3d
+  - 3317111799 (src/api.ts:9)   — answered, no change needed
+Skipped:
+  - 3317111850 (src/db.ts:77)   — no fix made, nothing to claim
+```
+
+One line per comment, each with the evidence or the reason it was skipped. Keep it to
+what actually happened — this is a record, not a status report.
 
 ### Notes
 

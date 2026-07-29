@@ -51,6 +51,10 @@ list below must exclude this login:
 gh pr view <NUM> --json author -q '.author.login'
 ```
 
+Resolve `owner`, `repo`, `<NUM>`, and the author **once**, then reuse those literal values
+through Step 4 — never re-run the resolution commands mid-run. A branch checkout between
+the candidate list and the request would otherwise add reviewers to a different PR.
+
 ## Step 1 — Check who's already requested (idempotency)
 
 ```bash
